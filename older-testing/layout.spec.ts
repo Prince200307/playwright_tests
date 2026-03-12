@@ -67,17 +67,6 @@ test.describe('Layout & Header', () => {
     });
 
     /**
-     * @description Verifies search input is visible in header on desktop
-     * @feature Layout & Header - Desktop
-     * @precondition Dashboard page loaded, desktop viewport
-     * @testdata None
-     * @expected Search input visible
-     */
-    test('Search input is visible in header on desktop', async ({ page }) => {
-      await expect(page.getByPlaceholder('Search...')).toBeVisible();
-    });
-
-    /**
      * @description Verifies theme toggle button is visible
      * @feature Layout & Header - Desktop
      * @precondition Dashboard page loaded

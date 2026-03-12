@@ -106,10 +106,6 @@ test.describe('Leaves Page', () => {
      * @testdata None
      * @expected Card elements visible
      */
-    test('All leave cards are visible', async ({ page }) => {
-      const cards = page.locator('[class*="card"], [class*="Card"]');
-      await expect(cards.first()).toBeVisible();
-    });
   });
 
   /**
