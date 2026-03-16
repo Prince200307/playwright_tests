@@ -7,12 +7,15 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    ['json', { outputFile: 'test-results.json' }],
+  ],
   
   use: {
     baseURL: 'http://95.216.39.97:8086',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    screenshot: 'on',
+    video: 'off',
     trace: 'on-first-retry',
   },
 

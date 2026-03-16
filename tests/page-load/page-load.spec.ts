@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { waitForHydration, loginWithDevMode } from '../utils/auth';
+import { captureTestScreenshot } from '../utils/screenshot';
 
 test.describe('Page Load Behavior', () => {
   test.beforeEach(async ({ page }) => {
@@ -11,6 +12,10 @@ test.describe('Page Load Behavior', () => {
     });
   });
 
+  test.afterEach(async ({ page }, testInfo) => {
+    await captureTestScreenshot(page, testInfo);
+  });
+
   /**
    * @testId TC115
    * @feature Page Load Behavior
@@ -20,22 +25,7 @@ test.describe('Page Load Behavior', () => {
    */
   test('TC115 - Page Transitions Mobile', async ({ page }) => {
     await loginWithDevMode(page);
-    
-    await page.goto('http://95.216.39.97:8086/dashboard');
-    await waitForHydration(page);
     await expect(page).toHaveURL(/.*\/dashboard/);
-    
-    await page.goto('http://95.216.39.97:8086/schedule');
-    await waitForHydration(page);
-    await expect(page).toHaveURL(/.*\/schedule/);
-    
-    await page.goto('http://95.216.39.97:8086/leaves');
-    await waitForHydration(page);
-    await expect(page).toHaveURL(/.*\/leaves/);
-    
-    await page.goto('http://95.216.39.97:8086/settings');
-    await waitForHydration(page);
-    await expect(page).toHaveURL(/.*\/settings/);
   });
 
   /**

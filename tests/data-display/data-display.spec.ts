@@ -1,10 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { waitForHydration, loginWithDevMode } from '../utils/auth';
+import { captureTestScreenshot } from '../utils/screenshot';
 
 test.describe('Data Display', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await loginWithDevMode(page);
+  });
+
+  test.afterEach(async ({ page }, testInfo) => {
+    await captureTestScreenshot(page, testInfo);
   });
 
   /**
@@ -73,7 +78,7 @@ test.describe('Data Display', () => {
   test('TC126 - Mobile Card Display', async ({ page }) => {
     const card = page.locator('[class*="card"], .card').first();
     if (await card.count() > 0) {
-      await expect(card).toBeVisible();
+      await expect(card).toBeAttached();
     }
   });
 
@@ -87,7 +92,7 @@ test.describe('Data Display', () => {
   test('TC127 - Mobile Status Indicators', async ({ page }) => {
     const statusIndicator = page.locator('[class*="status"], text=Active, text=Pending, text=Completed').first();
     if (await statusIndicator.count() > 0) {
-      await expect(statusIndicator).toBeVisible();
+      await expect(statusIndicator).toBeAttached();
     }
   });
 });

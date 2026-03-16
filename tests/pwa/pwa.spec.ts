@@ -1,9 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { waitForHydration, loginWithDevMode } from '../utils/auth';
+import { captureTestScreenshot } from '../utils/screenshot';
 
 test.describe('PWA', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
+  });
+
+  test.afterEach(async ({ page }, testInfo) => {
+    await captureTestScreenshot(page, testInfo);
   });
 
   /**

@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { waitForHydration, loginWithDevMode } from '../utils/auth';
+import { captureTestScreenshot } from '../utils/screenshot';
 
 test.describe('Leaves', () => {
   test.beforeEach(async ({ page }) => {
@@ -7,6 +8,10 @@ test.describe('Leaves', () => {
     await loginWithDevMode(page);
     await page.goto('http://95.216.39.97:8086/leaves');
     await waitForHydration(page);
+  });
+
+  test.afterEach(async ({ page }, testInfo) => {
+    await captureTestScreenshot(page, testInfo);
   });
 
   /**

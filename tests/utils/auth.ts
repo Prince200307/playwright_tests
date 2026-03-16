@@ -2,7 +2,7 @@ import { Page, expect } from '@playwright/test';
 
 export async function waitForHydration(page: Page): Promise<void> {
   try {
-    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('networkidle');
     const spinner = page.locator('.animate-spin');
     if (await spinner.count() > 0) {
       await expect(spinner).toBeHidden({ timeout: 10000 }).catch(() => {});

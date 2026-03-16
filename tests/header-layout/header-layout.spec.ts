@@ -1,10 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { waitForHydration, loginWithDevMode } from '../utils/auth';
+import { captureTestScreenshot } from '../utils/screenshot';
 
 test.describe('Header / Layout', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await loginWithDevMode(page);
+  });
+
+  test.afterEach(async ({ page }, testInfo) => {
+    await captureTestScreenshot(page, testInfo);
   });
 
   /**
@@ -59,7 +64,7 @@ test.describe('Header / Layout', () => {
    * @expected Input field renders and accepts text
    */
   test('TC112 - Mobile Search Input', async ({ page }) => {
-    const searchInput = page.locator('input[type="search"], input[placeholder*="Search"]').first();
+    const searchInput = page.getByPlaceholder(/search/i);
     if (await searchInput.count() > 0) {
       await expect(searchInput).toBeVisible();
     }
@@ -73,7 +78,7 @@ test.describe('Header / Layout', () => {
    * @expected Button displays in header
    */
   test('TC113 - Mobile Notification Button', async ({ page }) => {
-    const notificationButton = page.locator('button[aria-label*="Notification"], button:has-text("Notification")').first();
+    const notificationButton = page.getByRole('button', { name: 'Notifications' });
     if (await notificationButton.count() > 0) {
       await expect(notificationButton).toBeVisible();
     }
@@ -87,7 +92,7 @@ test.describe('Header / Layout', () => {
    * @expected Button toggles themes on tap
    */
   test('TC114 - Mobile Theme Toggle', async ({ page }) => {
-    const themeToggle = page.locator('button[aria-label*="Theme"], button:has-text("Theme")').first();
+    const themeToggle = page.getByRole('button', { name: 'Toggle theme' });
     if (await themeToggle.count() > 0) {
       await expect(themeToggle).toBeVisible();
     }
